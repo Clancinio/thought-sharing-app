@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listView = findViewById(R.id.list_view);
+        litView = findViewById(R.id.list_view);
         thoughts = new ArrayList<>();
     }
 
@@ -25,5 +25,7 @@ public class MainActivity extends AppCompatActivity {
         thoughts.add("To be Changed");
         ThoughtInfoAdapter adapter = new ThoughtInfoAdapter(this, thoughts);
         listView.setAdapter(adapter);
+
+
     }
 }
