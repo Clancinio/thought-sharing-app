@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "987094653926",
+    "firebase_url": "https://thoughtsharingapp.firebaseio.com",
+    "project_id": "thoughtsharingapp",
+    "storage_bucket": "thoughtsharingapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987094653926:android:37e20b64c7bb2b94005427",
+        "android_client_info": {
+          "package_name": "com.example.thoughtsharingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "987094653926-0o54i74pnenakl7u7126do4rg4qvnphd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thoughtsharingapp",
+            "certificate_hash": "fcd469067e1cc3d0cf18d007d2fe576bbd68262b"
+          }
+        },
+        {
+          "client_id": "987094653926-i6mbquo0kca44f8lga6aa78shfm0plhh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCY1W-saPCPkYA5e66ErkCivZOOWieqI9Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "987094653926-i6mbquo0kca44f8lga6aa78shfm0plhh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
