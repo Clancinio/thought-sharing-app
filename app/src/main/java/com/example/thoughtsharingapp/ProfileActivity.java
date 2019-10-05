@@ -101,7 +101,7 @@ public class ProfileActivity extends AppCompatActivity implements GoogleApiClien
         }
     }
     private void gotoMainActivity(){
-        Intent intent=new Intent(this,ProfileActivity.class);
+        Intent intent=new Intent(this, MainActivity.class);
         startActivity(intent);
     }
     @Override
