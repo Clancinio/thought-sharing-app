@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "987094653926",
-    "firebase_url": "https://thoughtsharingapp.firebaseio.com",
-    "project_id": "thoughtsharingapp",
-    "storage_bucket": "thoughtsharingapp.appspot.com"
+    "project_number": "48740644095",
+    "firebase_url": "https://thought-sharing-app-bf693.firebaseio.com",
+    "project_id": "thought-sharing-app-bf693",
+    "storage_bucket": "thought-sharing-app-bf693.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:987094653926:android:37e20b64c7bb2b94005427",
+        "mobilesdk_app_id": "1:48740644095:android:54fd3c745193eeb56848ca",
         "android_client_info": {
-          "package_name": "com.example.thoughtsharingapp"
+          "package_name": "com.example.thoughtsharingidea"
         }
       },
       "oauth_client": [
         {
-          "client_id": "987094653926-0o54i74pnenakl7u7126do4rg4qvnphd.apps.googleusercontent.com",
+          "client_id": "48740644095-7mgqrals85c9ltvg3ke4sk2qnud8vnud.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.thoughtsharingapp",
-            "certificate_hash": "fcd469067e1cc3d0cf18d007d2fe576bbd68262b"
+            "package_name": "com.example.thoughtsharingidea",
+            "certificate_hash": "2cdee2dbc7640899b820c26fbc2d7a67fdeb44b1"
           }
         },
         {
-          "client_id": "987094653926-i6mbquo0kca44f8lga6aa78shfm0plhh.apps.googleusercontent.com",
+          "client_id": "48740644095-fhg60515b738tdce0p5sgcq0soaq7o36.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCY1W-saPCPkYA5e66ErkCivZOOWieqI9Y"
+          "current_key": "AIzaSyDSCDkyniQwR6fUNefL66yJPVUPlyN34YU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "987094653926-i6mbquo0kca44f8lga6aa78shfm0plhh.apps.googleusercontent.com",
+              "client_id": "48740644095-fhg60515b738tdce0p5sgcq0soaq7o36.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
