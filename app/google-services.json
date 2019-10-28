@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "48740644095-mh2ggtq5upaku1mgmte029r2ihpsr381.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.thoughtsharingapp",
-            "certificate_hash": "fcd469067e1cc3d0cf18d007d2fe576bbd68262b"
-          }
-        },
-        {
           "client_id": "48740644095-gt3kmn48vrllg15qlpharqgv1bln2qdt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
