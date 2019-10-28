@@ -1,4 +1,4 @@
-package com.example.thoughtsharingidea;
+package com.example.thoughtsharingapp;
 
 import org.junit.jupiter.api.Test;
 
