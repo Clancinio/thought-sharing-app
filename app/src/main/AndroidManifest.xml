@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.thoughtsharingidea">
+    package="com.example.thoughtsharingapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,10 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.thoughtsharingidea.MessagesActivity"></activity>
+        <activity android:name="com.example.thoughtsharingapp.MessagesActivity"></activity>
 
-        <activity android:name="com.example.thoughtsharingidea.ProfileActivity" />
-        <activity android:name="com.example.thoughtsharingidea.MainActivity"
+        <activity android:name="com.example.thoughtsharingapp.ProfileActivity" />
+        <activity android:name="com.example.thoughtsharingapp.MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

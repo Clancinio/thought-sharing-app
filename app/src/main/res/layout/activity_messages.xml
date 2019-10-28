@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="com.example.thoughtsharingidea.FragmentDetailMessage"
+        android:name="com.example.thoughtsharingapp.FragmentDetailMessage"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/comments_list_view"
