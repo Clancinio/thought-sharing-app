@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response == null) {
                     // User pressed back button
                     Log.e(TAG, "User pressed back button");
-                    //TODO: What are we planning to do here?
+                    //wTODO: What are we planning to do here?
                     return;
                 }
 
