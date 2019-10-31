@@ -59,7 +59,7 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
     FirebaseAuth auth;
 
     private RecyclerView feedList;
-
+    private LinearLayoutManager layoutManager;
     private EditText postInput;
     private Button btnPost;
 
@@ -86,6 +86,13 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
         feedList = findViewById(R.id.feed_list);
         feedList.setHasFixedSize(true);
         feedList.setLayoutManager(new LinearLayoutManager(this));
+        layoutManager = new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+
+        // Set the layout manager to your recyclerview
+        feedList.setLayoutManager(layoutManager);
+
 
         if (auth.getCurrentUser() == null) {
             // not signed in
