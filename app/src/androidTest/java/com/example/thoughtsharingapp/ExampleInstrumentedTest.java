@@ -1,4 +1,4 @@
-package com.example.thoughtsharingidea;
+package com.example.thoughtsharingapp;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;
