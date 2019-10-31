@@ -53,20 +53,15 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
     // Choose an arbitrary request code value
     private static final int RC_SIGN_IN = 123;
 
-
-    ArrayList<String> thoughts;
-    ListView listView;
-    FirebaseAuth auth;
-
+    // Views
     private RecyclerView feedList;
     private LinearLayoutManager layoutManager;
     private EditText postInput;
     private Button btnPost;
 
-    private com.google.firebase.storage.StorageReference storage;
+    // Firebase
+    private FirebaseAuth auth;
     private DatabaseReference databaseReference;
-    private FirebaseDatabase database;
-    private Uri uri;
 
 
     @Override
@@ -78,6 +73,7 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
+        // Firebase
         auth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance().getReference();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Posts");
@@ -110,7 +106,6 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
 
         });
 
-        thoughts = new ArrayList<>();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -137,7 +132,7 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
                 .child("Posts")
-                .limitToLast(20);
+                .limitToLast(10);
 
         FirebaseRecyclerOptions<Feed> options =
                 new FirebaseRecyclerOptions.Builder<Feed>()
@@ -203,7 +198,6 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         // RC_SIGN_IN is the request code you passed into startActivityForResult(...) when starting the sign in flow.
         if (requestCode == RC_SIGN_IN) {
-            uri = data.getData();
             IdpResponse response = IdpResponse.fromResultIntent(data);
             // Successfully signed in
             if (resultCode == RESULT_OK) {
