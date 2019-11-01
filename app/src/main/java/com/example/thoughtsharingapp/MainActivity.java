@@ -38,16 +38,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class  MainActivity<StorageReference> extends AppCompatActivity {
+public class MainActivity<StorageReference> extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     // Choose an arbitrary request code value
@@ -75,7 +72,6 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
 
         // Firebase
         auth = FirebaseAuth.getInstance();
-        storage = FirebaseStorage.getInstance().getReference();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Posts");
 
         //Recycler View
@@ -113,7 +109,7 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                 if (menuItem.getItemId() == R.id.add_menu_navigation) {
-                    //Todo: create and start the menu activity
+                    //Todo: @chuck, writes his code here
                 } else {
                     Intent messagesActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
                     startActivity(messagesActivityIntent);
@@ -145,7 +141,7 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
             @Override
             public FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_post, parent, false);
-                FeedViewHolder viewHolder= new FeedViewHolder(view);
+                FeedViewHolder viewHolder = new FeedViewHolder(view);
                 return viewHolder;
             }
 
@@ -166,7 +162,8 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
 
         public FeedViewHolder(@NonNull View itemView) {
             super(itemView);
-            postText = itemView.findViewById(R.id.post_text);
+
+           postText = itemView.findViewById(R.id.post_text);
         }
 
     }
@@ -182,14 +179,17 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
 
         final String post = postInput.getText().toString().trim();
 
-        if(!TextUtils.isEmpty(post)){
+        if (!TextUtils.isEmpty(post)) {
             /**DatabaseReference newPost = databaseReference.push();
-            newPost.child("post").setValue(postInput); */
+             newPost.child("post").setValue(postInput); */
             // Write a message to the database
             DatabaseReference newPost = databaseReference.push();
             newPost.child("postText").setValue(post);
+            /**
+             * TODO: this userId next line of code should be used form
+             */
+            newPost.child("userId").setValue(auth.getUid());
 
-            startActivity(new Intent(this, MainActivity.class));
             Toast.makeText(this, "Thought posted successfully", Toast.LENGTH_LONG).show();
         }
     }
