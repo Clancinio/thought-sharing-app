@@ -89,10 +89,15 @@ public class MessagesActivity extends AppCompatActivity {
         mFirebaseAdapter = new FirebaseRecyclerAdapter<FriendlyMessage, MessageViewHolder>(options) {
             @Override
             protected void onBindViewHolder(MessageViewHolder viewHolder, int position, FriendlyMessage friendlyMessage) {
-                if (!mPostInfo.getUserId().equals(mFirebaseAuth.getUid())) {
-                    viewHolder.row.setGravity(Gravity.END);
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) viewHolder.messageTextView.getLayoutParams();
+                Log.e(TAG, "my id " + mFirebaseAuth.getUid());
+                Log.e(TAG, "unknown post " + mPostInfo.getUserId());
+                if (!mPostInfo.getUserId().equals(friendlyMessage.getUserId())) {
+                    params.gravity = Gravity.END;
+                    viewHolder.messageTextView.setLayoutParams(params);
                 } else {
-                    viewHolder.row.setGravity(Gravity.START);
+                    params.gravity = Gravity.START;
+                    viewHolder.messageTextView.setLayoutParams(params);
                 }
                 viewHolder.messageTextView.setText(friendlyMessage.getText());
             }
@@ -143,7 +148,7 @@ public class MessagesActivity extends AppCompatActivity {
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(), mEmail);
+                FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(), mFirebaseAuth.getUid());
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(mPostInfo.getUserId()).child(mPostInfo.getPostId()).push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
             }

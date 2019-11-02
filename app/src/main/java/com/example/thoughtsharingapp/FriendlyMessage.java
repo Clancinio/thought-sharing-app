@@ -2,14 +2,14 @@ package com.example.thoughtsharingapp;
 
 public class FriendlyMessage {
     private String text;
-    private String username;
+    private String userId;
 
     public FriendlyMessage() {
     }
 
     public FriendlyMessage(String text, String username) {
         this.text = text;
-        this.username = username;
+        this.userId = username;
     }
 
     public String getText() {
@@ -20,11 +20,11 @@ public class FriendlyMessage {
         this.text = text;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

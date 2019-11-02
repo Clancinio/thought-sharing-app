@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -37,8 +38,6 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     // Choose an arbitrary request code value
-    private static final int RC_SIGN_IN = 123;
-    public static final String POST_INFO = "PostInfo";
     public static final String POST_TEXT = "postText";
     public static final String USER_ID = "userId";
     public static final String POST_ID = "postId";
@@ -52,8 +51,6 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
     // Firebase
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
-
-    //feed object
 
 
     @Override
@@ -81,11 +78,6 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
         feedList.setLayoutManager(layoutManager);
 
 
-        if (auth.getCurrentUser() == null) {
-            // not signed in
-            signIn();
-        }
-
         btnPost = findViewById(R.id.btnPost);
         postInput = findViewById(R.id.postInput);
 
@@ -112,6 +104,7 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
         });
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -126,7 +119,7 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                         .setQuery(query, Feed.class)
                         .build();
 
-        FirebaseRecyclerAdapter<Feed, FeedViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Feed, FeedViewHolder>(options) {
+        final FirebaseRecyclerAdapter<Feed, FeedViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Feed, FeedViewHolder>(options) {
 
             @NonNull
             @Override
@@ -140,8 +133,7 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull FeedViewHolder holder, int position, @NonNull final Feed model) {
                 holder.postText.setText(model.getPostText());
 
-                Log.e(TAG, "my id " + auth.getUid());
-                Log.e(TAG, "unknown post " + model.getUserId());
+
                 if (auth.getUid().equals(model.getUserId())) {
                     holder.titlePost.setText("Me");
                 }
@@ -160,16 +152,19 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                         messagesActivityIntent.putExtra(POST_ID, model.getPostId());
                         messagesActivityIntent.putExtra(USER_ID, model.getUserId());
                         startActivity(messagesActivityIntent);
-                       
+
                     }
                 });
             }
         };
 
         feedList.setAdapter(firebaseRecyclerAdapter);
+
         firebaseRecyclerAdapter.startListening();
 
+
     }
+
 
     public class FeedViewHolder extends RecyclerView.ViewHolder {
 
@@ -218,34 +213,6 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
         }
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // RC_SIGN_IN is the request code you passed into startActivityForResult(...) when starting the sign in flow.
-        if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-            // Successfully signed in
-            if (resultCode == RESULT_OK) {
-                Log.e(TAG, "user is signed in");
-            } else {
-                // Sign in failed
-                if (response == null) {
-                    // User pressed back button
-                    Log.e(TAG, "User pressed back button");
-                    //TODO: What are we planning to do here?
-                    return;
-                }
-
-                if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
-                    Log.e(TAG, "user is signed inNo network");
-                    //TODO: Notify user that there is no network
-                    return;
-                }
-
-                //If it fails for any other unknown reason Sign in
-                //signIn();
-            }
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -267,16 +234,5 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
         return true;
     }
 
-    private void signIn() {
-        startActivityForResult(
-                // Get an instance of AuthUI based on the default app
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setIsSmartLockEnabled(false, true)
-                        .setAvailableProviders(
-                                Arrays.asList(
-                                        new AuthUI.IdpConfig.GoogleBuilder().build()
-                                )).build()
-                , RC_SIGN_IN);
-    }
+
 }
