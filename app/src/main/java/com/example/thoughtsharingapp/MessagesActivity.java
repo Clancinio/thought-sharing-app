@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,14 +13,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.auth.data.model.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,10 +44,17 @@ public class MessagesActivity extends AppCompatActivity {
     private EditText mMessageEditText;
     private String mEmail = "Anonymous";
 
+    //This object contains all the information about the post the user clicked on. Let's use to create the private message
+    private Feed mPostInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messages);
+
+        Intent intent = getIntent();
+
+        mPostInfo = new Feed(intent.getStringExtra(MainActivity.POST_TEXT), intent.getStringExtra(MainActivity.USER_ID), intent.getStringExtra(MainActivity.POST_ID));
 
         mMessageEditText = findViewById(R.id.messageEditText);
         mMessageRecyclerView = findViewById(R.id.messages_recycler_view);
@@ -75,7 +81,7 @@ public class MessagesActivity extends AppCompatActivity {
             }
         });
 
-        Query query = mFirebaseDatabaseReference.child(MESSAGES_CHILD);
+        Query query = mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(mPostInfo.getUserId()).child(mPostInfo.getPostId());
         FirebaseRecyclerOptions<FriendlyMessage> options = new FirebaseRecyclerOptions.Builder<FriendlyMessage>()
                 .setQuery(query, FriendlyMessage.class)
                 .build();
@@ -83,7 +89,7 @@ public class MessagesActivity extends AppCompatActivity {
         mFirebaseAdapter = new FirebaseRecyclerAdapter<FriendlyMessage, MessageViewHolder>(options) {
             @Override
             protected void onBindViewHolder(MessageViewHolder viewHolder, int position, FriendlyMessage friendlyMessage) {
-                if (friendlyMessage.getUsername().equals(mEmail)) {
+                if (!mPostInfo.getUserId().equals(mFirebaseAuth.getUid())) {
                     viewHolder.row.setGravity(Gravity.END);
                 } else {
                     viewHolder.row.setGravity(Gravity.START);
@@ -138,7 +144,7 @@ public class MessagesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(), mEmail);
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD).push().setValue(friendlyMessage);
+                mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(mPostInfo.getUserId()).child(mPostInfo.getPostId()).push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
             }
         });
