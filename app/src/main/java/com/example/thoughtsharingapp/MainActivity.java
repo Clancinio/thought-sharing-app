@@ -3,16 +3,11 @@ package com.example.thoughtsharingapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.storage.StorageManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,8 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,26 +25,23 @@ import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 
-public class  MainActivity<StorageReference> extends AppCompatActivity {
+public class MainActivity<StorageReference> extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     // Choose an arbitrary request code value
     private static final int RC_SIGN_IN = 123;
+    public static final String POST_INFO = "PostInfo";
+    public static final String POST_TEXT = "postText";
+    public static final String USER_ID = "userId";
+    public static final String POST_ID = "postId";
 
     // Views
     private RecyclerView feedList;
@@ -62,6 +52,8 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
     // Firebase
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
+
+    //feed object
 
 
     @Override
@@ -75,7 +67,6 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
 
         // Firebase
         auth = FirebaseAuth.getInstance();
-        storage = FirebaseStorage.getInstance().getReference();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Posts");
 
         //Recycler View
@@ -113,12 +104,8 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                 if (menuItem.getItemId() == R.id.add_menu_navigation) {
-                    //Todo: create and start the menu activity
-                } else {
-                    Intent messagesActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
-                    startActivity(messagesActivityIntent);
+                    //Todo: @chuck, writes his code here
                 }
-
 
                 return false;
             }
@@ -145,13 +132,40 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
             @Override
             public FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_post, parent, false);
-                FeedViewHolder viewHolder= new FeedViewHolder(view);
+                FeedViewHolder viewHolder = new FeedViewHolder(view);
                 return viewHolder;
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull FeedViewHolder holder, int position, @NonNull Feed model) {
+            protected void onBindViewHolder(@NonNull FeedViewHolder holder, int position, @NonNull final Feed model) {
                 holder.postText.setText(model.getPostText());
+
+                Log.e(TAG, "my id " + auth.getUid());
+                Log.e(TAG, "unknown post " + model.getUserId());
+                if (auth.getUid().equals(model.getUserId())) {
+                    holder.titlePost.setText("Me");
+                }
+
+                /* When user clicks on post layout, open the messages activity with the required information
+                 * using the intent*/
+                holder.postLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.e(TAG, "User id " + model.getUserId() + " my Id " + auth.getUid());
+
+                        if (!auth.getUid().equals(model.getUserId())) {
+
+                            Intent messagesActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
+
+                            messagesActivityIntent.putExtra(POST_TEXT, model.getPostText());
+                            messagesActivityIntent.putExtra(POST_ID, model.getPostId());
+                            messagesActivityIntent.putExtra(USER_ID, model.getUserId());
+                            startActivity(messagesActivityIntent);
+                        } else {
+                            Toast.makeText(MainActivity.this, "You wouldn't want to talk to yourself would you?", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         };
 
@@ -163,10 +177,21 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
     public class FeedViewHolder extends RecyclerView.ViewHolder {
 
         TextView postText;
+        View postLayout;
+        TextView titlePost;
 
         public FeedViewHolder(@NonNull View itemView) {
             super(itemView);
+            postLayout = itemView;
+            titlePost = itemView.findViewById(R.id.post_title);
+
             postText = itemView.findViewById(R.id.post_text);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
         }
 
     }
@@ -182,14 +207,16 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
 
         final String post = postInput.getText().toString().trim();
 
-        if(!TextUtils.isEmpty(post)){
+        if (!TextUtils.isEmpty(post)) {
             /**DatabaseReference newPost = databaseReference.push();
-            newPost.child("post").setValue(postInput); */
+             newPost.child("post").setValue(postInput); */
             // Write a message to the database
             DatabaseReference newPost = databaseReference.push();
-            newPost.child("postText").setValue(post);
+            newPost.child(POST_TEXT).setValue(post);
+            newPost.child(USER_ID).setValue(auth.getUid());
+            newPost.child(POST_ID).setValue(newPost.getRef().getKey());
 
-            startActivity(new Intent(this, MainActivity.class));
+
             Toast.makeText(this, "Thought posted successfully", Toast.LENGTH_LONG).show();
         }
     }

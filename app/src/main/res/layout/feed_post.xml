@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Post Title"
+            android:text="Unknown"
             android:textSize="16sp"
             android:textStyle="bold"></TextView>
 
