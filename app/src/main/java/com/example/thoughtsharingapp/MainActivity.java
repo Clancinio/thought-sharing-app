@@ -153,17 +153,14 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                     public void onClick(View view) {
                         Log.e(TAG, "User id " + model.getUserId() + " my Id " + auth.getUid());
 
-                        if (!auth.getUid().equals(model.getUserId())) {
 
-                            Intent messagesActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
+                        Intent messagesActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
 
-                            messagesActivityIntent.putExtra(POST_TEXT, model.getPostText());
-                            messagesActivityIntent.putExtra(POST_ID, model.getPostId());
-                            messagesActivityIntent.putExtra(USER_ID, model.getUserId());
-                            startActivity(messagesActivityIntent);
-                        } else {
-                            Toast.makeText(MainActivity.this, "You wouldn't want to talk to yourself would you?", Toast.LENGTH_SHORT).show();
-                        }
+                        messagesActivityIntent.putExtra(POST_TEXT, model.getPostText());
+                        messagesActivityIntent.putExtra(POST_ID, model.getPostId());
+                        messagesActivityIntent.putExtra(USER_ID, model.getUserId());
+                        startActivity(messagesActivityIntent);
+                       
                     }
                 });
             }
