@@ -6,24 +6,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.ErrorCodes;
-import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -32,21 +25,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import java.util.Arrays;
-
 public class MainActivity<StorageReference> extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
+
     // Choose an arbitrary request code value
-    public static final String POST_TEXT = "postText";
-    public static final String USER_ID = "userId";
-    public static final String POST_ID = "postId";
+    public static final String POST_TEXT_EXTRAS = "postText";
+    public static final String USER_ID_EXTRAS = "userId";
+    public static final String POST_ID_EXTRAS = "postId";
+    public static final String POST_TITLE_EXTRAS = "postTitle";
 
     // Views
     private RecyclerView feedList;
     private LinearLayoutManager layoutManager;
-    private EditText postInput;
-    private Button btnPost;
 
     // Firebase
     private FirebaseAuth auth;
@@ -74,20 +65,12 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
-        // Set the layout manager to your recyclerview
+        // Set the layout mana ger to your recyclerview
         feedList.setLayoutManager(layoutManager);
 
 
-        btnPost = findViewById(R.id.btnPost);
-        postInput = findViewById(R.id.postInput);
 
-        btnPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startPosting();
-            }
 
-        });
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -95,10 +78,12 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                if (menuItem.getItemId() == R.id.add_menu_navigation) {
-                    //Todo: @chuck, writes his code here
-                }
 
+                if (menuItem.getItemId() == R.id.add_menu_navigation) {
+                    Intent postActivityntent = new Intent(MainActivity.this, PostMessageActivity.class);
+                    startActivity(postActivityntent);
+
+                }
                 return false;
             }
         });
@@ -125,14 +110,14 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
             @Override
             public FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_post, parent, false);
-                FeedViewHolder viewHolder = new FeedViewHolder(view);
-                return viewHolder;
+                return new FeedViewHolder(view);
             }
 
             @Override
             protected void onBindViewHolder(@NonNull FeedViewHolder holder, int position, @NonNull final Feed model) {
                 holder.postText.setText(model.getPostText());
 
+                //TODO: Lets do something on the layout with the post title value. Displaying it here maybe?
 
                 if (auth.getUid().equals(model.getUserId())) {
                     holder.titlePost.setText("Me");
@@ -148,9 +133,9 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
 
                         Intent messagesActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
 
-                        messagesActivityIntent.putExtra(POST_TEXT, model.getPostText());
-                        messagesActivityIntent.putExtra(POST_ID, model.getPostId());
-                        messagesActivityIntent.putExtra(USER_ID, model.getUserId());
+                        messagesActivityIntent.putExtra(POST_TEXT_EXTRAS, model.getPostText());
+                        messagesActivityIntent.putExtra(POST_ID_EXTRAS, model.getPostId());
+                        messagesActivityIntent.putExtra(USER_ID_EXTRAS, model.getUserId());
                         startActivity(messagesActivityIntent);
 
                     }
@@ -188,30 +173,8 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-    }
-
-    // This method posts to the database
-    private void startPosting() {
-
-        final String post = postInput.getText().toString().trim();
-
-        if (!TextUtils.isEmpty(post)) {
-            /**DatabaseReference newPost = databaseReference.push();
-             newPost.child("post").setValue(postInput); */
-            // Write a message to the database
-            DatabaseReference newPost = databaseReference.push();
-            newPost.child(POST_TEXT).setValue(post);
-            newPost.child(USER_ID).setValue(auth.getUid());
-            newPost.child(POST_ID).setValue(newPost.getRef().getKey());
 
 
-            Toast.makeText(this, "Thought posted successfully", Toast.LENGTH_LONG).show();
-        }
-    }
 
 
     @Override

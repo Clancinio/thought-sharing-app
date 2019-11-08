@@ -3,9 +3,18 @@ package com.example.thoughtsharingapp;
 import java.io.Serializable;
 
 public class Feed {
+    private String postTitle;
     private String postText;
     private String userId;
     private String postId;
+
+    public Feed(String postTitle, String postText, String userId, String postId) {
+        this.postTitle = postTitle;
+        this.postText = postText;
+        this.userId = userId;
+        this.postId = postId;
+
+    }
 
     public Feed(String postText, String userId, String postId) {
         this.postText = postText;
@@ -44,5 +53,13 @@ public class Feed {
 
     public void setPostId(String postId) {
         this.postId = postId;
+    }
+
+    public String getPostTitle() {
+        return postTitle;
+    }
+
+    public void setPostTitle(String postTitle) {
+        this.postTitle = postTitle;
     }
 }

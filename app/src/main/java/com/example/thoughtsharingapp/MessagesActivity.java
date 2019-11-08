@@ -54,7 +54,7 @@ public class MessagesActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        mPostInfo = new Feed(intent.getStringExtra(MainActivity.POST_TEXT), intent.getStringExtra(MainActivity.USER_ID), intent.getStringExtra(MainActivity.POST_ID));
+        mPostInfo = new Feed( intent.getStringExtra(MainActivity.POST_TEXT_EXTRAS), intent.getStringExtra(MainActivity.USER_ID_EXTRAS), intent.getStringExtra(MainActivity.POST_ID_EXTRAS));
 
         mMessageEditText = findViewById(R.id.messageEditText);
         mMessageRecyclerView = findViewById(R.id.messages_recycler_view);
@@ -100,6 +100,7 @@ public class MessagesActivity extends AppCompatActivity {
                     viewHolder.messageTextView.setLayoutParams(params);
                 }
                 viewHolder.messageTextView.setText(friendlyMessage.getText());
+
             }
 
             @Override
