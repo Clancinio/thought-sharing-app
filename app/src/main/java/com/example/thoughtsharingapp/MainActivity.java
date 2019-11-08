@@ -54,8 +54,7 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
     // Views
     private RecyclerView feedList;
     private LinearLayoutManager layoutManager;
-    private EditText postInput;
-    private Button btnPost;
+
 
     // Firebase
     private FirebaseAuth auth;
@@ -92,16 +91,8 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
             signIn();
         }
 
-        btnPost = findViewById(R.id.btnPost);
-        postInput = findViewById(R.id.postInput);
 
-        btnPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startPosting();
-            }
 
-        });
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -173,22 +164,7 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
 
     }
 
-    // This method posts to the database
-    public void startPosting() {
 
-        final String post = postInput.getText().toString().trim();
-
-        if(!TextUtils.isEmpty(post)){
-            /**DatabaseReference newPost = databaseReference.push();
-            newPost.child("post").setValue(postInput); */
-            // Write a message to the database
-            DatabaseReference newPost = databaseReference.push();
-            newPost.child("postText").setValue(post);
-
-            startActivity(new Intent(this, MainActivity.class));
-            Toast.makeText(this, "Thought posted successfully", Toast.LENGTH_LONG).show();
-        }
-    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
