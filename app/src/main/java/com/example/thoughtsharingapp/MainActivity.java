@@ -38,9 +38,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+
 
 import org.w3c.dom.Text;
 
@@ -75,7 +73,6 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
 
         // Firebase
         auth = FirebaseAuth.getInstance();
-        storage = FirebaseStorage.getInstance().getReference();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Posts");
 
         //Recycler View
@@ -113,10 +110,9 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                 if (menuItem.getItemId() == R.id.add_menu_navigation) {
-                    //Todo: create and start the menu activity
-                } else {
-                    Intent messagesActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
-                    startActivity(messagesActivityIntent);
+                    Intent postActivityntent = new Intent(MainActivity.this, PostMessageActivity.class);
+                    startActivity(postActivityntent);
+
                 }
 
 
@@ -178,7 +174,7 @@ public class  MainActivity<StorageReference> extends AppCompatActivity {
     }
 
     // This method posts to the database
-    private void startPosting() {
+    public void startPosting() {
 
         final String post = postInput.getText().toString().trim();
 
