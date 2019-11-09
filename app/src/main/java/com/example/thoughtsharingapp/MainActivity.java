@@ -69,10 +69,6 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
         feedList.setLayoutManager(layoutManager);
 
 
-
-
-
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -116,12 +112,12 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull FeedViewHolder holder, int position, @NonNull final Feed model) {
                 holder.postText.setText(model.getPostText());
-
+                holder.titlePost.setText(model.getPostTitle());
                 //TODO: Lets do something on the layout with the post title value. Displaying it here maybe?
 
-                if (auth.getUid().equals(model.getUserId())) {
+              /***  if (auth.getUid().equals(model.getUserId())) {
                     holder.titlePost.setText("Me");
-                }
+                } *////
 
                 /* When user clicks on post layout, open the messages activity with the required information
                  * using the intent*/
@@ -172,9 +168,6 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
         }
 
     }
-
-
-
 
 
     @Override
