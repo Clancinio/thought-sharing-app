@@ -7,5 +7,8 @@
         android:id="@+id/action_sign_out"
         android:title="@string/toolbar_sign_out"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/account_settings_button"
+        android:title="Account Settings" />
 
 </menu>
