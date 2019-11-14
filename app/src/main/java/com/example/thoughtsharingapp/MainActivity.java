@@ -115,13 +115,21 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                 holder.titlePost.setText(model.getPostTitle());
                 //TODO: Lets do something on the layout with the post title value. Displaying it here maybe?
 
-              /***  if (auth.getUid().equals(model.getUserId())) {
-                    holder.titlePost.setText("Me");
-                } *////
+                final String userID = getRef(position).getKey();
+                // Click post to request conversation
+                holder.postLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent requestIntent = new Intent(MainActivity.this, RequestActivity.class);
+                        requestIntent.putExtra(USER_ID_EXTRAS, model.getUserId());
+                        startActivity(requestIntent);
 
+                    }
+                });
+                /*********** KENNETHS MESSAGE CODE ***************/
                 /* When user clicks on post layout, open the messages activity with the required information
                  * using the intent*/
-                holder.postLayout.setOnClickListener(new View.OnClickListener() {
+                /****     holder.postLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Log.e(TAG, "User id " + model.getUserId() + " my Id " + auth.getUid());
@@ -135,7 +143,7 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                         startActivity(messagesActivityIntent);
 
                     }
-                });
+                }); ***/
             }
         };
 
