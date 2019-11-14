@@ -61,7 +61,35 @@ public class RequestActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         friendRequestRef = database.getReference().child("Friend_reqest");
 
+        friendRequestRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                friendRequestRef.child(mCurrentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.hasChild(user_id)){
+                            String requestType = dataSnapshot.child(user_id).child("request_type").getValue().toString();
+                            if(requestType.equals("received")){
+                                mCurrentState = 2;
+                                requestButton.setText("Accept Friend Rquest");
+                            } else if(requestType.equals("sent")){
+                                mCurrentState =  1; // request sent
+                            }
+                        }
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         // OnClickListerner for request button
         mCurrentState = 0;
@@ -72,7 +100,7 @@ public class RequestActivity extends AppCompatActivity {
                 //------------------- NOT FRIENDS --------------------//
                 // mCurrentState = 0 --- Not Friends
                 // mCurrentState = 1 --- Request Sent
-                // mCurrentState = 2 --- Friends
+                // mCurrentState = 2 --- Request Received
                 requestButton.setEnabled(false);
                 if(mCurrentState == 0){
                     friendRequestRef.child(mCurrentUser.getUid()).child(user_id).child("request_type").setValue("sent").addOnCompleteListener(new OnCompleteListener<Void>() {
