@@ -65,7 +65,7 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
-        // Set the layout mana ger to your recyclerview
+        // Set the layout manager to your recyclerview
         feedList.setLayoutManager(layoutManager);
 
 

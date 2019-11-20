@@ -3,6 +3,7 @@ package com.example.thoughtsharingapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -46,7 +47,7 @@ public class RequestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request);
 
-        // Recieve intent from MainActivity
+        // Receive intent from MainActivity
         final String user_id = getIntent().getStringExtra(USER_ID_EXTRAS);
 
         // Views
@@ -59,7 +60,8 @@ public class RequestActivity extends AppCompatActivity {
 
         //Store data in database
         database = FirebaseDatabase.getInstance();
-        friendRequestRef = database.getReference().child("Friend_reqest");
+        friendRequestRef = database.getReference().child("Friend_request");
+        
 
         friendRequestRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -91,7 +93,7 @@ public class RequestActivity extends AppCompatActivity {
             }
         });
 
-        // OnClickListerner for request button
+        // OnClickListener for request button
         mCurrentState = 0;
         requestButton.setOnClickListener(new View.OnClickListener() {
             @Override
