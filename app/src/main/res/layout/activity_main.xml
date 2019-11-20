@@ -24,11 +24,12 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:menu="@menu/my_navigation_items" />
+        app:menu="@menu/my_navigation_items"
+        android:textColor="#fff"
+        android:background="@drawable/custom_buttom"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
