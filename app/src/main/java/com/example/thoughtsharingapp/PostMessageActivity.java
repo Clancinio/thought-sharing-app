@@ -3,6 +3,7 @@ package com.example.thoughtsharingapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,8 @@ public class PostMessageActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
 
+    private AlertDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +40,14 @@ public class PostMessageActivity extends AppCompatActivity {
 
         if (!titleEditext.getText().toString().isEmpty() && !textEditext.getText().toString().isEmpty()) {
             startPosting(titleEditext.getText().toString(), textEditext.getText().toString());
-
+            // Progress bar
+            AlertDialog.Builder builder = new AlertDialog.Builder(PostMessageActivity.this);
+            builder.setCancelable(false); // if you want user to wait for some process to finish,
+            builder.setView(R.layout.layout_post_loading);
+            dialog = builder.create();
+            dialog.show(); // to show this dialog
         }else{
+            dialog.dismiss();
             Toast.makeText(this, "Thinking of posting something right?", Toast.LENGTH_SHORT).show();
         }
 

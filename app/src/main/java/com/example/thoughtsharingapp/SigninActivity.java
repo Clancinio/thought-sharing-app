@@ -3,6 +3,7 @@ package com.example.thoughtsharingapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +21,12 @@ public class SigninActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
     private static final String TAG = SigninActivity.class.getSimpleName();
+
+    // Firebase Auth
     FirebaseAuth firebaseAuth;
+
+    // Progress Dialog
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -61,7 +61,6 @@ public class RequestActivity extends AppCompatActivity {
         //Store data in database
         database = FirebaseDatabase.getInstance();
         friendRequestRef = database.getReference().child("Friend_request");
-        
 
         friendRequestRef.addValueEventListener(new ValueEventListener() {
             @Override
