@@ -19,6 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.thoughtsharingapp.classes.Feed;
+import com.example.thoughtsharingapp.classes.FriendlyMessage;
+import com.example.thoughtsharingapp.classes.NotificationStarter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -154,6 +157,8 @@ public class MessagesActivity extends AppCompatActivity {
                 mMessageEditText.setText("");
             }
         });
+        NotificationStarter notification = new NotificationStarter(this);
+        notification.checkForNewRequest();
     }
 
     @Override
