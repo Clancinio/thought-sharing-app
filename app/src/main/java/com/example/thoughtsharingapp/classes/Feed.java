@@ -1,4 +1,4 @@
-package com.example.thoughtsharingapp;
+package com.example.thoughtsharingapp.classes;
 
 import java.io.Serializable;
 
@@ -22,6 +22,7 @@ public class Feed {
         this.postId = postId;
 
     }
+
 
     public Feed() {
 

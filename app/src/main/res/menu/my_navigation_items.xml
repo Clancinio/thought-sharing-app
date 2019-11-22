@@ -12,5 +12,7 @@
     <item
         android:id="@+id/messages_menu_navigation"
         android:icon="@drawable/ic_messages_menu"
-        android:title="@string/messages_menu" />
+        android:title="@string/messages_menu"
+
+      />
 </menu>

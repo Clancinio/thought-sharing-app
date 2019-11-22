@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.thoughtsharingapp.classes.Feed;
+import com.example.thoughtsharingapp.classes.NotificationStarter;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -41,21 +42,25 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
 
     // Firebase
     private FirebaseAuth auth;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReferencePost;
+    private DatabaseReference databaseReferenceRequest;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // sets up activity toolbar
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
-        // Firebase
+        // TODO: Need to take care of the authenticate notification aspect when user is szigned out
         auth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Posts");
+        databaseReferencePost = FirebaseDatabase.getInstance().getReference().child("Posts");
+        databaseReferenceRequest = FirebaseDatabase.getInstance().getReference().child("Friend_reqest").child(auth.getUid()).child("request_received");
+
+        //Notify user when they receive a notification
+        /**listenForRequest();**/
 
         //Recycler View
         feedList = findViewById(R.id.feed_list);
@@ -83,6 +88,10 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                 return false;
             }
         });
+
+        NotificationStarter notification = new NotificationStarter(this);
+        notification.checkForNewRequest();
+
     }
 
 
@@ -122,6 +131,7 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                     public void onClick(View view) {
                         Intent requestIntent = new Intent(MainActivity.this, RequestActivity.class);
                         requestIntent.putExtra(USER_ID_EXTRAS, model.getUserId());
+                        requestIntent.putExtra(POST_ID_EXTRAS, model.getPostId());
                         startActivity(requestIntent);
 
                     }
@@ -130,19 +140,18 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                 /* When user clicks on post layout, open the messages activity with the required information
                  * using the intent*/
                 /****     holder.postLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.e(TAG, "User id " + model.getUserId() + " my Id " + auth.getUid());
+                @Override public void onClick(View view) {
+                Log.e(TAG, "User id " + model.getUserId() + " my Id " + auth.getUid());
 
 
-                        Intent messagesActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
+                Intent messagesActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
 
-                        messagesActivityIntent.putExtra(POST_TEXT_EXTRAS, model.getPostText());
-                        messagesActivityIntent.putExtra(POST_ID_EXTRAS, model.getPostId());
-                        messagesActivityIntent.putExtra(USER_ID_EXTRAS, model.getUserId());
-                        startActivity(messagesActivityIntent);
+                messagesActivityIntent.putExtra(POST_TEXT_EXTRAS, model.getPostText());
+                messagesActivityIntent.putExtra(POST_ID_EXTRAS, model.getPostId());
+                messagesActivityIntent.putExtra(USER_ID_EXTRAS, model.getUserId());
+                startActivity(messagesActivityIntent);
 
-                    }
+                }
                 }); ***/
             }
         };
@@ -203,4 +212,6 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
         super.onBackPressed();
         this.finishAffinity();
     }
+
+
 }

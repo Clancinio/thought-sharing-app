@@ -1,4 +1,4 @@
-package com.example.thoughtsharingapp;
+package com.example.thoughtsharingapp.classes;
 
 public class FriendlyMessage {
     private String text;
