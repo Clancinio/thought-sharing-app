@@ -12,14 +12,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class PostMessageActivity extends AppCompatActivity {
     private static final String TAG = PostMessageActivity.class.getSimpleName();
-    private EditText titleEditext;
-    private EditText textEditext;
+    private TextInputLayout titleEditext;
+    private TextInputLayout textEditext;
 
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
@@ -38,8 +39,8 @@ public class PostMessageActivity extends AppCompatActivity {
 
     public void postTitle(View view) {
 
-        if (!titleEditext.getText().toString().isEmpty() && !textEditext.getText().toString().isEmpty()) {
-            startPosting(titleEditext.getText().toString(), textEditext.getText().toString());
+        if (!titleEditext.getEditText().getText().toString().isEmpty() && !textEditext.getEditText().getText().toString().isEmpty()) {
+            startPosting(titleEditext.getEditText().getText().toString(), textEditext.getEditText().getText().toString());
             // Progress bar
             AlertDialog.Builder builder = new AlertDialog.Builder(PostMessageActivity.this);
             builder.setCancelable(false); // if you want user to wait for some process to finish,
