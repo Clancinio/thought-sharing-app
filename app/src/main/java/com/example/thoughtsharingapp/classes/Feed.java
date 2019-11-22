@@ -20,7 +20,6 @@ public class Feed {
         this.postText = postText;
         this.userId = userId;
         this.postId = postId;
-
     }
 
 

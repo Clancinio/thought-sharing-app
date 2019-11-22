@@ -12,8 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RequestActivity"></activity>
-        <activity android:name=".PostMessageActivity" />
+        <activity android:name=".MyPost"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".RequestActivity" />
+        <activity android:name=".PostMessageActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".SigninActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
