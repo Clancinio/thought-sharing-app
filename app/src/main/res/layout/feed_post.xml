@@ -6,25 +6,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="20dp">
+        android:layout_margin="20dp"
+        android:background="#424242">
 
         <TextView
             android:id="@+id/post_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/custom_buttom"
+            android:fadeScrollbars="false"
+            android:fontFamily="@font/crete_round"
             android:padding="10dp"
             android:text="Unknown"
-            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textSize="17sp"
             android:textStyle="bold"></TextView>
 
         <TextView
             android:id="@+id/post_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="false"
+            android:fontFamily="@font/montserrat"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:paddingBottom="10dp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quis quam ipsum. Quisque scelerisque elit augue, quis semper ipsum venenatis quis. Nam nec tempus justo. Aenean a volutpat turpis. Aliquam sit amet ante eu risus varius gravida. Aliquam gravida, nisl et consequat accumsan, sem felis fringilla felis, non venenatis enim arcu quis risus. In egestas luctus accumsan. Ut ullamcorper egestas nisl non varius.">
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quis quam ipsum. Quisque scelerisque elit augue, quis semper ipsum venenatis quis. Nam nec tempus justo. Aenean a volutpat turpis. Aliquam sit amet ante eu risus varius gravida. Aliquam gravida, nisl et consequat accumsan, sem felis fringilla felis, non venenatis enim arcu quis risus. In egestas luctus accumsan. Ut ullamcorper egestas nisl non varius."
+            android:textSize="15sp">
 
         </TextView>
     </LinearLayout>

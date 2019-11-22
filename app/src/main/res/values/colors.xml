@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF9A13</color>
     <color name="colorGrayText">#767676</color>
     <color name="bottom_navigation_background">#9C27B0</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#fff</color>
+
 </resources>
