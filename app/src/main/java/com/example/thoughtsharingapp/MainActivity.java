@@ -57,7 +57,6 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
         // TODO: Need to take care of the authenticate notification aspect when user is szigned out
         auth = FirebaseAuth.getInstance();
         databaseReferencePost = FirebaseDatabase.getInstance().getReference().child("Posts");
-        databaseReferenceRequest = FirebaseDatabase.getInstance().getReference().child("Friend_reqest").child(auth.getUid()).child("request_received");
 
         //Notify user when they receive a notification
         /**listenForRequest();**/
@@ -70,7 +69,7 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
-        // Set the layout mana ger to your recyclerview
+        // Set the layout manager to your recyclerview
         feedList.setLayoutManager(layoutManager);
 
 

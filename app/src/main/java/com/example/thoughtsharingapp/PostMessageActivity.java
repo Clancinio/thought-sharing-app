@@ -3,6 +3,7 @@ package com.example.thoughtsharingapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,19 +11,23 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.thoughtsharingapp.classes.Feed;
+import com.example.thoughtsharingapp.classes.NotificationStarter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class PostMessageActivity extends AppCompatActivity {
     private static final String TAG = PostMessageActivity.class.getSimpleName();
-    private EditText titleEditext;
-    private EditText textEditext;
+    private TextInputLayout titleEditext;
+    private TextInputLayout textEditext;
 
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
+
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +37,22 @@ public class PostMessageActivity extends AppCompatActivity {
         textEditext = findViewById(R.id.text_edit_text);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Posts");
         auth = FirebaseAuth.getInstance();
+        NotificationStarter notification = new NotificationStarter(this);
+        notification.checkForNewRequest();
     }
 
     public void postTitle(View view) {
 
-        if (!titleEditext.getText().toString().isEmpty() && !textEditext.getText().toString().isEmpty()) {
-            startPosting(titleEditext.getText().toString(), textEditext.getText().toString());
-
+        if (!titleEditext.getEditText().getText().toString().isEmpty() && !textEditext.getEditText().getText().toString().isEmpty()) {
+            startPosting(titleEditext.getEditText().getText().toString(), textEditext.getEditText().getText().toString());
+            // Progress bar
+            AlertDialog.Builder builder = new AlertDialog.Builder(PostMessageActivity.this);
+            builder.setCancelable(false); // if you want user to wait for some process to finish,
+            builder.setView(R.layout.layout_post_loading);
+            dialog = builder.create();
+            dialog.show(); // to show this dialog
         }else{
+            dialog.dismiss();
             Toast.makeText(this, "Thinking of posting something right?", Toast.LENGTH_SHORT).show();
         }
 

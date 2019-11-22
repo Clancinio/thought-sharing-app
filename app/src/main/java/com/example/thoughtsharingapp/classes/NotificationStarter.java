@@ -37,7 +37,7 @@ public class NotificationStarter {
     public NotificationStarter(Context context) {
         this.context = context;
         this.auth = FirebaseAuth.getInstance();
-        dbRequestReceived = FirebaseDatabase.getInstance().getReference().child(RequestActivity.FRIEND_REQEST_REFERENCE).child(RequestActivity.REQEST_RECEIVED_REFERENCE);
+        dbRequestReceived = FirebaseDatabase.getInstance().getReference().child(RequestActivity.FRIEND_REQEST_REFERENCE).child(auth.getUid()).child(RequestActivity.REQEST_RECEIVED_REFERENCE);
         createNotificationChannel();
     }
 

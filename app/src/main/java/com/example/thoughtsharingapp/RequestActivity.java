@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thoughtsharingapp.classes.FriendRequest;
+import com.example.thoughtsharingapp.classes.NotificationStarter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -79,6 +80,8 @@ public class RequestActivity extends AppCompatActivity {
 
 
         hasAlreadyRequested();
+        NotificationStarter notification = new NotificationStarter(this);
+        notification.checkForNewRequest();
 
 
     }
@@ -119,6 +122,8 @@ public class RequestActivity extends AppCompatActivity {
         if (((Button) view).getText().toString().equals(CANCEL_REQUEST)) {
 
             cancelRequest();
+            requestButton.setText("Send Request");
+
         } else {
             //You can now make a request if you have not yet made a request
             if (!postUserId.equals(mCurrentUser.getUid())) { //This is true when someone else posted these thoughts but not you!!!
