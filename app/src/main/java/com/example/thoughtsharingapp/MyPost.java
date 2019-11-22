@@ -9,24 +9,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.thoughtsharingapp.classes.Feed;
 import com.example.thoughtsharingapp.classes.NotificationStarter;
-import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-public class MainActivity<StorageReference> extends AppCompatActivity {
+public class MyPost<StorageReference> extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -37,62 +34,40 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
     public static final String POST_TITLE_EXTRAS = "postTitle";
 
     // Views
-    private RecyclerView feedList;
+    private RecyclerView myPosts;
     private LinearLayoutManager layoutManager;
 
     // Firebase
     private FirebaseAuth auth;
     private DatabaseReference databaseReferencePost;
-    private DatabaseReference databaseReferenceRequest;
 
+    //FirebaseUser
+    private FirebaseUser mCurrentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        // sets up activity toolbar
-        Toolbar myToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
+        setContentView(R.layout.activity_my_post);
 
-        // TODO: Need to take care of the authenticate notification aspect when user is szigned out
-        auth = FirebaseAuth.getInstance();
+
         databaseReferencePost = FirebaseDatabase.getInstance().getReference().child("Posts");
 
         //Notify user when they receive a notification
         /**listenForRequest();**/
 
         //Recycler View
-        feedList = findViewById(R.id.my_post_list);
-        feedList.setHasFixedSize(true);
-        feedList.setLayoutManager(new LinearLayoutManager(this));
+        myPosts = findViewById(R.id.my_post_list);
+        myPosts.setHasFixedSize(true);
+        myPosts.setLayoutManager(new LinearLayoutManager(this));
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
         // Set the layout manager to your recyclerview
-        feedList.setLayoutManager(layoutManager);
+        myPosts.setLayoutManager(layoutManager);
 
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-
-                if (menuItem.getItemId() == R.id.add_menu_navigation) {
-                    Intent postActivityntent = new Intent(MainActivity.this, PostMessageActivity.class);
-                    startActivity(postActivityntent);
-                }
-                if (menuItem.getItemId() == R.id.my_posts_navigation) {
-                    Intent myPostActivity = new Intent(MainActivity.this, MyPost.class);
-                    startActivity(myPostActivity);
-                }
-                return false;
-            }
-        });
-
-        NotificationStarter notification = new NotificationStarter(this);
-        notification.checkForNewRequest();
+        // Get current user
+        mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
     }
 
@@ -131,34 +106,17 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                 holder.postLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent requestIntent = new Intent(MainActivity.this, RequestActivity.class);
+                        Intent requestIntent = new Intent(MyPost.this, MessagesActivity.class);
                         requestIntent.putExtra(USER_ID_EXTRAS, model.getUserId());
                         requestIntent.putExtra(POST_ID_EXTRAS, model.getPostId());
                         startActivity(requestIntent);
 
                     }
                 });
-                /*********** KENNETHS MESSAGE CODE ***************/
-                /* When user clicks on post layout, open the messages activity with the required information
-                 * using the intent*/
-                /****     holder.postLayout.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View view) {
-                Log.e(TAG, "User id " + model.getUserId() + " my Id " + auth.getUid());
-
-
-                Intent messagesActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
-
-                messagesActivityIntent.putExtra(POST_TEXT_EXTRAS, model.getPostText());
-                messagesActivityIntent.putExtra(POST_ID_EXTRAS, model.getPostId());
-                messagesActivityIntent.putExtra(USER_ID_EXTRAS, model.getUserId());
-                startActivity(messagesActivityIntent);
-
-                }
-                }); ***/
             }
         };
 
-        feedList.setAdapter(firebaseRecyclerAdapter);
+        myPosts.setAdapter(firebaseRecyclerAdapter);
 
         firebaseRecyclerAdapter.startListening();
 
@@ -186,27 +144,6 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
             });
         }
 
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sign_out_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_sign_out: {
-                // do your sign-out stuff
-                AuthUI.getInstance().signOut(this);
-                finish();
-                break;
-            }
-            // case blocks for other MenuItems (if any)
-        }
-        return true;
     }
 
     @Override

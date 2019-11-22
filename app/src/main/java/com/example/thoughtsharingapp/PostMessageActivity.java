@@ -23,6 +23,7 @@ public class PostMessageActivity extends AppCompatActivity {
     private static final String TAG = PostMessageActivity.class.getSimpleName();
     private TextInputLayout titleEditext;
     private TextInputLayout textEditext;
+    private String postID;
 
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
@@ -63,7 +64,7 @@ public class PostMessageActivity extends AppCompatActivity {
     private void startPosting(String title, String text) {
 
 
-        DatabaseReference newPost = databaseReference.push();
+        final DatabaseReference newPost = databaseReference.push();
         newPost.setValue(new Feed(title, text, auth.getUid(), newPost.getRef().getKey())).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
