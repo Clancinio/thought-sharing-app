@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,11 +107,13 @@ public class MyPost<StorageReference> extends AppCompatActivity {
                 holder.postLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent requestIntent = new Intent(MyPost.this, MessagesActivity.class);
-                        requestIntent.putExtra(USER_ID_EXTRAS, model.getUserId());
-                        requestIntent.putExtra(POST_ID_EXTRAS, model.getPostId());
-                        startActivity(requestIntent);
-
+                        //******** KENNETHS CODE *********/
+                        Log.e(TAG, "User id " + model.getUserId() + " my Id " + auth.getUid());
+                        Intent messagesActivityIntent = new Intent(MyPost.this, MessagesActivity.class);
+                        messagesActivityIntent.putExtra(POST_TEXT_EXTRAS, model.getPostText());
+                        messagesActivityIntent.putExtra(POST_ID_EXTRAS, model.getPostId());
+                        messagesActivityIntent.putExtra(USER_ID_EXTRAS, model.getUserId());
+                        startActivity(messagesActivityIntent);
                     }
                 });
             }
