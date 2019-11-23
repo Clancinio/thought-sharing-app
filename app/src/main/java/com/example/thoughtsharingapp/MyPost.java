@@ -78,8 +78,8 @@ public class MyPost<StorageReference> extends AppCompatActivity {
 
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
-                .child("Posts")
-                .limitToLast(10);
+                .child("MyPosts").child(mCurrentUser.getUid())
+                .limitToLast(100);
 
         FirebaseRecyclerOptions<Feed> options =
                 new FirebaseRecyclerOptions.Builder<Feed>()
