@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thoughtsharingapp.classes.Feed;
@@ -23,8 +24,9 @@ public class PostMessageActivity extends AppCompatActivity {
     private static final String TAG = PostMessageActivity.class.getSimpleName();
     private TextInputLayout titleEditext;
     private TextInputLayout textEditext;
-
+    
     private DatabaseReference databaseReference;
+    private DatabaseReference myPostsDatabaseRef;
     private FirebaseAuth auth;
 
     private AlertDialog dialog;
@@ -36,6 +38,9 @@ public class PostMessageActivity extends AppCompatActivity {
         titleEditext = findViewById(R.id.title_edit_text);
         textEditext = findViewById(R.id.text_edit_text);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Posts");
+        // reference for just the post posted by current user
+        myPostsDatabaseRef = FirebaseDatabase.getInstance().getReference().child("MyPosts");
+
         auth = FirebaseAuth.getInstance();
         NotificationStarter notification = new NotificationStarter(this);
         notification.checkForNewRequest();
@@ -61,10 +66,27 @@ public class PostMessageActivity extends AppCompatActivity {
 
     // This method posts to the database
     private void startPosting(String title, String text) {
-
-
-        DatabaseReference newPost = databaseReference.push();
+        final DatabaseReference myNewPost = myPostsDatabaseRef.child(auth.getUid()).push();
+        final DatabaseReference newPost = databaseReference.push();
         newPost.setValue(new Feed(title, text, auth.getUid(), newPost.getRef().getKey())).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                if (task.isSuccessful()) {
+
+
+                    Log.e(TAG, "Posted successfully");
+                    Toast.makeText(PostMessageActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    //TODO: come up with a better design to notify them that they couldnt post
+                    Log.e(TAG, "Posting failed");
+                    Toast.makeText(PostMessageActivity.this, "Posting failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        myNewPost.setValue(new Feed(title, text, auth.getUid(), newPost.getRef().getKey())).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -75,8 +97,6 @@ public class PostMessageActivity extends AppCompatActivity {
                     //TODO: come up with a better design to notify them that they couldnt post
                     Log.e(TAG, "Posting failed");
                     Toast.makeText(PostMessageActivity.this, "Posting failed", Toast.LENGTH_SHORT).show();
-
-
                 }
             }
         });

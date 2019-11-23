@@ -8,11 +8,13 @@ public class Feed {
     private String userId;
     private String postId;
 
+
     public Feed(String postTitle, String postText, String userId, String postId) {
         this.postTitle = postTitle;
         this.postText = postText;
         this.userId = userId;
         this.postId = postId;
+
 
     }
 
@@ -20,7 +22,6 @@ public class Feed {
         this.postText = postText;
         this.userId = userId;
         this.postId = postId;
-
     }
 
 
@@ -62,5 +63,11 @@ public class Feed {
 
     public void setPostTitle(String postTitle) {
         this.postTitle = postTitle;
+    }
+
+    public String getTimeStamp() {
+        Long tsLong = System.currentTimeMillis()/1000;
+        String ts = tsLong.toString();
+        return ts;
     }
 }

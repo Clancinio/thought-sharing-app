@@ -10,9 +10,9 @@
         android:icon="@drawable/ic_add_menu"
         android:title="@string/add_menu" />
     <item
-        android:id="@+id/messages_menu_navigation"
+        android:id="@+id/my_posts_navigation"
         android:icon="@drawable/ic_messages_menu"
-        android:title="@string/messages_menu"
+        android:title="@string/my_posts"
 
       />
 </menu>
