@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thoughtsharingapp.classes.Feed;
@@ -23,7 +24,7 @@ public class PostMessageActivity extends AppCompatActivity {
     private static final String TAG = PostMessageActivity.class.getSimpleName();
     private TextInputLayout titleEditext;
     private TextInputLayout textEditext;
-
+    
     private DatabaseReference databaseReference;
     private DatabaseReference myPostsDatabaseRef;
     private FirebaseAuth auth;
@@ -65,13 +66,15 @@ public class PostMessageActivity extends AppCompatActivity {
 
     // This method posts to the database
     private void startPosting(String title, String text) {
-
         final DatabaseReference myNewPost = myPostsDatabaseRef.child(auth.getUid()).push();
         final DatabaseReference newPost = databaseReference.push();
         newPost.setValue(new Feed(title, text, auth.getUid(), newPost.getRef().getKey())).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+
                 if (task.isSuccessful()) {
+
+
                     Log.e(TAG, "Posted successfully");
                     Toast.makeText(PostMessageActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
                     finish();
