@@ -3,6 +3,7 @@ package com.example.thoughtsharingapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -106,7 +107,7 @@ public class RequestActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    requestButton.setText(CANCEL_REQUEST);
+                    requestButton.setText("Post Comment");
                 }
                 requestButton.setEnabled(true);
 
@@ -128,7 +129,7 @@ public class RequestActivity extends AppCompatActivity {
         if (((Button) view).getText().toString().equals(CANCEL_REQUEST)) {
 
             cancelRequest();
-            requestButton.setText("Send Request");
+            requestButton.setText("Post Comment");
 
         } else {
             //You can now make a request if you have not yet made a request
@@ -136,10 +137,9 @@ public class RequestActivity extends AppCompatActivity {
 
                 makeRequest();
 
-                requestButton.setText(CANCEL_REQUEST);
 
             } else {
-                Toast.makeText(RequestActivity.this, "You can not make a request to yourself you know :)", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RequestActivity.this, "You can not comment on your own post!", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -174,9 +174,10 @@ public class RequestActivity extends AppCompatActivity {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             if (task.isSuccessful()){
+                                                                Toast.makeText(RequestActivity.this, "Comment posted successfully", Toast.LENGTH_SHORT).show();
                                                                 finish();
                                                             }else{
-                                                                Toast.makeText(RequestActivity.this, "Your request Failed.Check Connection and retry!", Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(RequestActivity.this, "Your comment failed to post. Check Connection and retry!", Toast.LENGTH_SHORT).show();
                                                             }
                                                         }
                                                     });
