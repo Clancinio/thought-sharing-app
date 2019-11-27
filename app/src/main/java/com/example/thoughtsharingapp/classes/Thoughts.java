@@ -1,13 +1,13 @@
 package com.example.thoughtsharingapp.classes;
 
-public class FriendlyMessage {
+public class Thoughts {
     private String text;
     private String userId;
 
-    public FriendlyMessage() {
+    public Thoughts() {
     }
 
-    public FriendlyMessage(String text, String username) {
+    public Thoughts(String text, String username) {
         this.text = text;
         this.userId = username;
     }

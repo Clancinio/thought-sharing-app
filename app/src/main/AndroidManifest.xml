@@ -12,10 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MyPost"
+        <activity android:name=".MyPostActivity"
             android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".RequestActivity" />
-        <activity android:name=".PostMessageActivity"
+        <activity android:name=".PostActivity"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".SigninActivity">
             <intent-filter>
@@ -24,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MessagesActivity" />
+        <activity android:name=".PostCommentActivity" />
         <activity android:name=".ProfileActivity" />
         <activity
             android:name=".MainActivity"

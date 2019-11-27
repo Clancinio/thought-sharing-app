@@ -2,20 +2,17 @@ package com.example.thoughtsharingapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.thoughtsharingapp.classes.Feed;
-import com.example.thoughtsharingapp.classes.NotificationStarter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,7 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-public class MyPost<StorageReference> extends AppCompatActivity {
+public class MyPostActivity<StorageReference> extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -108,8 +105,7 @@ public class MyPost<StorageReference> extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         //******** KENNETHS CODE *********/
-                        Log.e(TAG, "User id " + model.getUserId() + " my Id " + auth.getUid());
-                        Intent messagesActivityIntent = new Intent(MyPost.this, MessagesActivity.class);
+                        Intent messagesActivityIntent = new Intent(MyPostActivity.this, PostCommentActivity.class);
                         messagesActivityIntent.putExtra(POST_TEXT_EXTRAS, model.getPostText());
                         messagesActivityIntent.putExtra(POST_ID_EXTRAS, model.getPostId());
                         messagesActivityIntent.putExtra(USER_ID_EXTRAS, model.getUserId());

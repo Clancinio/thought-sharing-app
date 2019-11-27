@@ -80,11 +80,11 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
 
 
                 if (menuItem.getItemId() == R.id.add_menu_navigation) {
-                    Intent postActivityntent = new Intent(MainActivity.this, PostMessageActivity.class);
+                    Intent postActivityntent = new Intent(MainActivity.this, PostActivity.class);
                     startActivity(postActivityntent);
                 }
                 if (menuItem.getItemId() == R.id.my_posts_navigation) {
-                    Intent myPostActivity = new Intent(MainActivity.this, MyPost.class);
+                    Intent myPostActivity = new Intent(MainActivity.this, MyPostActivity.class);
                     startActivity(myPostActivity);
                 }
                 return false;
@@ -134,6 +134,8 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                         Intent requestIntent = new Intent(MainActivity.this, RequestActivity.class);
                         requestIntent.putExtra(USER_ID_EXTRAS, model.getUserId());
                         requestIntent.putExtra(POST_ID_EXTRAS, model.getPostId());
+                        requestIntent.putExtra(POST_TITLE_EXTRAS, model.getPostTitle());
+                        requestIntent.putExtra(POST_TEXT_EXTRAS, model.getPostText());
                         startActivity(requestIntent);
 
                     }
@@ -146,7 +148,7 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                 Log.e(TAG, "User id " + model.getUserId() + " my Id " + auth.getUid());
 
 
-                Intent messagesActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
+                Intent messagesActivityIntent = new Intent(MainActivity.this, PostCommentActivity.class);
 
                 messagesActivityIntent.putExtra(POST_TEXT_EXTRAS, model.getPostText());
                 messagesActivityIntent.putExtra(POST_ID_EXTRAS, model.getPostId());

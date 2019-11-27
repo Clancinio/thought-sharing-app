@@ -7,8 +7,6 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thoughtsharingapp.classes.Feed;
@@ -20,8 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class PostMessageActivity extends AppCompatActivity {
-    private static final String TAG = PostMessageActivity.class.getSimpleName();
+public class PostActivity extends AppCompatActivity {
+    private static final String TAG = PostActivity.class.getSimpleName();
     private TextInputLayout titleEditext;
     private TextInputLayout textEditext;
     
@@ -51,7 +49,7 @@ public class PostMessageActivity extends AppCompatActivity {
         if (!titleEditext.getEditText().getText().toString().isEmpty() && !textEditext.getEditText().getText().toString().isEmpty()) {
             startPosting(titleEditext.getEditText().getText().toString(), textEditext.getEditText().getText().toString());
             // Progress bar
-            AlertDialog.Builder builder = new AlertDialog.Builder(PostMessageActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(PostActivity.this);
             builder.setCancelable(false); // if you want user to wait for some process to finish,
             builder.setView(R.layout.layout_post_loading);
             dialog = builder.create();
@@ -76,12 +74,12 @@ public class PostMessageActivity extends AppCompatActivity {
 
 
                     Log.e(TAG, "Posted successfully");
-                    Toast.makeText(PostMessageActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     //TODO: come up with a better design to notify them that they couldnt post
                     Log.e(TAG, "Posting failed");
-                    Toast.makeText(PostMessageActivity.this, "Posting failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostActivity.this, "Posting failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -91,12 +89,12 @@ public class PostMessageActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Log.e(TAG, "Posted successfully");
-                    Toast.makeText(PostMessageActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostActivity.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     //TODO: come up with a better design to notify them that they couldnt post
                     Log.e(TAG, "Posting failed");
-                    Toast.makeText(PostMessageActivity.this, "Posting failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostActivity.this, "Posting failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });

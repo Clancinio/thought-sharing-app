@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thoughtsharingapp.classes.Feed;
-import com.example.thoughtsharingapp.classes.FriendlyMessage;
+import com.example.thoughtsharingapp.classes.Thoughts;
 import com.example.thoughtsharingapp.classes.NotificationStarter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -33,13 +32,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class MessagesActivity extends AppCompatActivity {
+public class PostCommentActivity extends AppCompatActivity {
 
-    public static final String MESSAGES_CHILD = "chat";
-    private static final String TAG = MessagesActivity.class.getSimpleName();
+    public static final String PEOPLE_POSTS_THOUGHTS = "thoughts";
+    private static final String TAG = PostCommentActivity.class.getSimpleName();
 
     private DatabaseReference mFirebaseDatabaseReference;
-    private FirebaseRecyclerAdapter<FriendlyMessage, MessageViewHolder> mFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Feed, MessageViewHolder> mFirebaseAdapter;
 
     private ImageButton mSendButton;
     private RecyclerView mMessageRecyclerView;
@@ -68,13 +67,13 @@ public class MessagesActivity extends AppCompatActivity {
         final FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        mFirebaseDatabaseReference.child("users").child(mFirebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+        mFirebaseDatabaseReference.child(mFirebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (mFirebaseAuth.getUid() != null) {
                     mEmail = mFirebaseAuth.getCurrentUser().getEmail();
                 } else {
-                    Toast.makeText(MessagesActivity.this, "Need to sign in", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostCommentActivity.this, "Need to sign in", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -84,25 +83,16 @@ public class MessagesActivity extends AppCompatActivity {
             }
         });
 
-        Query query = mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(mPostInfo.getUserId()).child(mPostInfo.getPostId());
-        FirebaseRecyclerOptions<FriendlyMessage> options = new FirebaseRecyclerOptions.Builder<FriendlyMessage>()
-                .setQuery(query, FriendlyMessage.class)
+        Query query = mFirebaseDatabaseReference.child(PEOPLE_POSTS_THOUGHTS).child(mFirebaseAuth.getUid()).
+                child(mPostInfo.getPostId());
+        FirebaseRecyclerOptions<Feed> options = new FirebaseRecyclerOptions.Builder<Feed>()
+                .setQuery(query, Feed.class)
                 .build();
 
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<FriendlyMessage, MessageViewHolder>(options) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Feed, MessageViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(MessageViewHolder viewHolder, int position, FriendlyMessage friendlyMessage) {
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) viewHolder.messageTextView.getLayoutParams();
-                Log.e(TAG, "my id " + mFirebaseAuth.getUid());
-                Log.e(TAG, "unknown post " + mPostInfo.getUserId());
-                if (!mPostInfo.getUserId().equals(friendlyMessage.getUserId())) {
-                    params.gravity = Gravity.END;
-                    viewHolder.messageTextView.setLayoutParams(params);
-                } else {
-                    params.gravity = Gravity.START;
-                    viewHolder.messageTextView.setLayoutParams(params);
-                }
-                viewHolder.messageTextView.setText(friendlyMessage.getText());
+            protected void onBindViewHolder(MessageViewHolder viewHolder, int position, Feed feed) {
+                viewHolder.messageTextView.setText(feed.getPostText());
 
             }
 
@@ -152,8 +142,8 @@ public class MessagesActivity extends AppCompatActivity {
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(), mFirebaseAuth.getUid());
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(mPostInfo.getUserId()).child(mPostInfo.getPostId()).push().setValue(friendlyMessage);
+                Thoughts friendlyMessage = new Thoughts(mMessageEditText.getText().toString(), mFirebaseAuth.getUid());
+                mFirebaseDatabaseReference.child(PEOPLE_POSTS_THOUGHTS).child(mPostInfo.getUserId()).child(mPostInfo.getPostId()).push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
             }
         });

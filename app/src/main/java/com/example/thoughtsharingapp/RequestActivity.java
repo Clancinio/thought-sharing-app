@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.thoughtsharingapp.classes.FriendRequest;
+import com.example.thoughtsharingapp.classes.Feed;
 import com.example.thoughtsharingapp.classes.NotificationStarter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,12 +31,13 @@ public class RequestActivity extends AppCompatActivity {
 
     public static final String REQEST_RECEIVED_REFERENCE = "request_received";
     public static final String REQEST_SENT_REFERENCE = "request_sent";
-    public static final String REQEST_ACCEPTED_REFERENCE = "request_accepted";
+    public static final String THOUGHTS_ON_POST = "thoughts";//This reference is the path of people's thought made on your posts
 
 
     // Views
     private Button requestButton;
-    private TextView userID;
+    private EditText titleEditText;
+    private EditText textEditText;
 
     // State
     private int mCurrentState;
@@ -42,6 +45,8 @@ public class RequestActivity extends AppCompatActivity {
     // Database
     private FirebaseDatabase database;
     private DatabaseReference friendRequestRef;
+    private DatabaseReference thoughtDatabaseRef;
+
 
     // Firebase Auth
     private FirebaseAuth mAuth;
@@ -65,8 +70,8 @@ public class RequestActivity extends AppCompatActivity {
         postId = getIntent().getStringExtra(POST_ID_EXTRAS);
 
         // Views
-        userID = findViewById(R.id.user_id);
-        userID.setText(postUserId);
+        titleEditText = findViewById(R.id.sweet_title_edit_text);
+        textEditText = findViewById(R.id.sweet_words_edit_text);
         requestButton = findViewById(R.id.request_button);
 
 
@@ -77,6 +82,7 @@ public class RequestActivity extends AppCompatActivity {
         //Store data in database
         database = FirebaseDatabase.getInstance();
         friendRequestRef = database.getReference().child(FRIEND_REQEST_REFERENCE);
+        thoughtDatabaseRef = FirebaseDatabase.getInstance().getReference().child(THOUGHTS_ON_POST);
 
 
         hasAlreadyRequested();
@@ -150,11 +156,30 @@ public class RequestActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
                     //Push the id of the post to the person who actually made the post for them to receive a request
-                    friendRequestRef.child(postUserId).child(REQEST_RECEIVED_REFERENCE).child(postId).child(mCurrentUser.getUid()).setValue("They received the request");
+                    friendRequestRef.child(postUserId).child(REQEST_RECEIVED_REFERENCE).child(postId).child(mCurrentUser.getUid()).setValue("They received the request")
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        //Push success code request to yourself to avoid you making the same request to the same post
+                                        friendRequestRef.child(mCurrentUser.getUid()).child(REQEST_SENT_REFERENCE).child(postId).setValue("I sent the request").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    thoughtDatabaseRef.child(postUserId).child(postId).push().setValue(new Feed(
+                                                            titleEditText.getText().toString(),
+                                                            textEditText.getText().toString()
+                                                            , getIntent().getStringExtra(MainActivity.USER_ID_EXTRAS),
+                                                            getIntent().getStringExtra(MainActivity.POST_ID_EXTRAS)));
 
 
-                    //Push success code request to yourself to avoid you making the same request to the same post
-                    friendRequestRef.child(mCurrentUser.getUid()).child(REQEST_SENT_REFERENCE).child(postId).setValue("I sent the request");
+                                                }
+                                            }
+                                        });
+
+                                    }
+                                }
+                            });
 
 
                 } else {
@@ -167,6 +192,7 @@ public class RequestActivity extends AppCompatActivity {
                 //TODO: Notify them there is an issue with the network
             }
         });
+
     }
 
 

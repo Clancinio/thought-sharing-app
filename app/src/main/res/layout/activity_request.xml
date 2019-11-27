@@ -8,53 +8,83 @@
     android:background="#424242">
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView10"
+        android:layout_width="411dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/fui_auth_method_button_width"
-        android:text="Request to Talk"
-        android:textColor="#fff"
+        android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:text="Want to make some feel better?"
+        android:textColor="@android:color/white"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/title_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:textColorHint="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:theme="@style/TextInputLayoutStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/sweet_title_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:hint="Title Of Your Sweet Words "
+            android:inputType="textShortMessage"
+            android:textColor="@android:color/darker_gray" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_edit_text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="The user must first accept your request to talk."
+        android:theme="@style/TextInputLayoutStyle"
+        android:paddingStart="8dp"
+        android:textColorHint="@android:color/darker_gray"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        android:textColor="#fff"/>
+        app:layout_constraintTop_toBottomOf="@+id/title_edit_text"
+        app:layout_constraintVertical_bias="0.011">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/sweet_words_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Tell them something nice"
+            android:inputType="textMultiLine"
+            android:textColor="@android:color/darker_gray" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <Button
         android:id="@+id/request_button"
         android:layout_width="270dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/custom_buttom"
         android:enabled="false"
         android:onClick="completeRequest"
         android:text="Send Request"
+        android:textAllCaps="true"
+        android:textColor="#fff"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
-        android:textAllCaps="true"
-        android:textSize="30dp"
-        android:textColor="#fff"
-        android:background="@drawable/custom_buttom"/>
+        app:layout_constraintTop_toBottomOf="@+id/text_edit_text"
+        app:layout_constraintVertical_bias="0.865" />
 
-    <TextView
-        android:id="@+id/user_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/request_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
-        android:textColor="#fff"
-        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
