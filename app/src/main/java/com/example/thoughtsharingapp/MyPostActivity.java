@@ -2,6 +2,7 @@ package com.example.thoughtsharingapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,6 +43,7 @@ public class MyPostActivity<StorageReference> extends AppCompatActivity {
     //FirebaseUser
     private FirebaseUser mCurrentUser;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,7 @@ public class MyPostActivity<StorageReference> extends AppCompatActivity {
 
         databaseReferencePost = FirebaseDatabase.getInstance().getReference().child("Posts");
 
+        
         //Notify user when they receive a notification
         /**listenForRequest();**/
 
