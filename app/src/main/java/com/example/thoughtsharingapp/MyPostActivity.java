@@ -145,11 +145,6 @@ public class MyPostActivity<StorageReference> extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        this.finishAffinity();
-    }
 
 
 }

@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:id="@+id/row"
+    android:layout_marginTop="12dp"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
     <TextView
-        android:id="@+id/messageTextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/sweet_title_text_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
         android:textStyle="bold"
-        tools:text="Hey, Man!"/>
+        tools:text="Music Gives pleasure!"/>
+    <TextView
+        android:id="@+id/sweet_words_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        tools:text="Hey, Man! I usually listen to Daughter music when I need to feel alive again"/>
 
 
 </LinearLayout>

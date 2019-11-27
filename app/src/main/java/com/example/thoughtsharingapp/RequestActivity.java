@@ -170,7 +170,16 @@ public class RequestActivity extends AppCompatActivity {
                                                             titleEditText.getText().toString(),
                                                             textEditText.getText().toString()
                                                             , getIntent().getStringExtra(MainActivity.USER_ID_EXTRAS),
-                                                            getIntent().getStringExtra(MainActivity.POST_ID_EXTRAS)));
+                                                            getIntent().getStringExtra(MainActivity.POST_ID_EXTRAS))).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()){
+                                                                finish();
+                                                            }else{
+                                                                Toast.makeText(RequestActivity.this, "Your request Failed.Check Connection and retry!", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+                                                    });
 
 
                                                 }
