@@ -75,7 +75,7 @@
         android:background="@drawable/custom_buttom"
         android:enabled="false"
         android:onClick="completeRequest"
-        android:text="Send Request"
+        android:text="Post Comment"
         android:textAllCaps="true"
         android:textColor="#fff"
         android:textSize="30dp"

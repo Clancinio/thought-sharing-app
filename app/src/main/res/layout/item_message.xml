@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_marginTop="12dp"
-    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginEnd="10dp"
+    android:background="#424242"
     android:orientation="vertical">
+
     <TextView
         android:id="@+id/sweet_title_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
         android:textStyle="bold"
-        tools:text="Music Gives pleasure!"/>
+        tools:text="Music Gives pleasure!" />
+
     <TextView
         android:id="@+id/sweet_words_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
         android:textStyle="bold"
-        tools:text="Hey, Man! I usually listen to Daughter music when I need to feel alive again"/>
+        tools:text="Hey, Man! I usually listen to Daughter music when I need to feel alive again" />
 
 
 </LinearLayout>
