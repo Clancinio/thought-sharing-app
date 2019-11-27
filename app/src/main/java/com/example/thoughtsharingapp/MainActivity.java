@@ -54,6 +54,7 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
+
         // TODO: Need to take care of the authenticate notification aspect when user is szigned out
         auth = FirebaseAuth.getInstance();
         databaseReferencePost = FirebaseDatabase.getInstance().getReference().child("Posts");
@@ -126,7 +127,6 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                 holder.titlePost.setText(model.getPostTitle());
                 //TODO: Lets do something on the layout with the post title value. Displaying it here maybe?
 
-                final String userID = getRef(position).getKey();
                 // Click post to request conversation
                 holder.postLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
