@@ -4,6 +4,8 @@
     package="com.example.thoughtsharingapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -17,7 +19,8 @@
             android:label="My Posts"></activity>
         <activity android:name=".PostCommentActivity"
             android:parentActivityName=".MyPostActivity"
-            android:label="Comments"></activity>
+            android:label="Comments"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
         <activity android:name=".RequestActivity" />
         <activity android:name=".PostActivity"
             android:parentActivityName=".MainActivity"/>

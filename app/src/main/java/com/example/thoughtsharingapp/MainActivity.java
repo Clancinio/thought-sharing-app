@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.thoughtsharingapp.classes.Feed;
 import com.example.thoughtsharingapp.classes.NotificationStarter;
@@ -50,16 +52,22 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(!SigninActivity.CheckNetwork.isInternetAvailable(MainActivity.this)) //returns true if internet available
+
+        {
+            Toast.makeText(MainActivity.this,"No Internet Connection",1000).show();
+        }
+
         // sets up activity toolbar
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
-        // TODO: Need to take care of the authenticate notification aspect when user is szigned out
+        // FirebaseAuth instance
         auth = FirebaseAuth.getInstance();
-        databaseReferencePost = FirebaseDatabase.getInstance().getReference().child("Posts");
 
-        //Notify user when they receive a notification
-        /**listenForRequest();**/
+        // Create database instance for Posts
+        databaseReferencePost = FirebaseDatabase.getInstance().getReference().child("Posts");
 
         //Recycler View
         feedList = findViewById(R.id.my_post_list);
@@ -69,15 +77,14 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
-        // Set the layout manager to your recyclerview
+        // Set the layout manager to your recyclerView
         feedList.setLayoutManager(layoutManager);
 
-
+        // Bottom navigation menu
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
 
                 if (menuItem.getItemId() == R.id.add_menu_navigation) {
                     Intent postActivityntent = new Intent(MainActivity.this, PostActivity.class);
@@ -93,7 +100,6 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
 
         NotificationStarter notification = new NotificationStarter(this);
         notification.checkForNewRequest();
-
     }
 
 
@@ -101,6 +107,7 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        // Create a database query to pull data to display on the main feed
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
                 .child("Posts")
@@ -111,6 +118,7 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                         .setQuery(query, Feed.class)
                         .build();
 
+        // Adapter for RecyclerView
         final FirebaseRecyclerAdapter<Feed, FeedViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Feed, FeedViewHolder>(options) {
 
             @NonNull
@@ -137,26 +145,8 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                         requestIntent.putExtra(POST_TITLE_EXTRAS, model.getPostTitle());
                         requestIntent.putExtra(POST_TEXT_EXTRAS, model.getPostText());
                         startActivity(requestIntent);
-
                     }
                 });
-                /*********** KENNETHS MESSAGE CODE ***************/
-                /* When user clicks on post layout, open the messages activity with the required information
-                 * using the intent*/
-                /****     holder.postLayout.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View view) {
-                Log.e(TAG, "User id " + model.getUserId() + " my Id " + auth.getUid());
-
-
-                Intent messagesActivityIntent = new Intent(MainActivity.this, PostCommentActivity.class);
-
-                messagesActivityIntent.putExtra(POST_TEXT_EXTRAS, model.getPostText());
-                messagesActivityIntent.putExtra(POST_ID_EXTRAS, model.getPostId());
-                messagesActivityIntent.putExtra(USER_ID_EXTRAS, model.getUserId());
-                startActivity(messagesActivityIntent);
-
-                }
-                }); ***/
             }
         };
 

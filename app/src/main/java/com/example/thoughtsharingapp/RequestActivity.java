@@ -25,6 +25,14 @@ import com.google.firebase.database.ValueEventListener;
 import static com.example.thoughtsharingapp.MainActivity.POST_ID_EXTRAS;
 import static com.example.thoughtsharingapp.MainActivity.USER_ID_EXTRAS;
 
+/**************************************************************
+ *
+ *  This is the activity for adding a new post to the main feed.
+ *  Originally this activity was for requesting to be friends but we
+ *  decided to add a comment feature instead.
+ *
+ ***************************************************************/
+
 public class RequestActivity extends AppCompatActivity {
     //Constants
     public static final String CANCEL_REQUEST = "Cancel Request";
@@ -40,9 +48,6 @@ public class RequestActivity extends AppCompatActivity {
     private EditText titleEditText;
     private EditText textEditText;
 
-    // State
-    private int mCurrentState;
-
     // Database
     private FirebaseDatabase database;
     private DatabaseReference friendRequestRef;
@@ -57,6 +62,7 @@ public class RequestActivity extends AppCompatActivity {
      **/
     private String postUserId; // The id of the person who made that post
     private String postId; // Id of the post
+
     //FirebaseUser
     private FirebaseUser mCurrentUser;
 
@@ -66,7 +72,7 @@ public class RequestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_request);
 
 
-        // Recieve intent from MainActivity
+        // Receive intent from MainActivity
         postUserId = getIntent().getStringExtra(USER_ID_EXTRAS);
         postId = getIntent().getStringExtra(POST_ID_EXTRAS);
 
@@ -84,7 +90,6 @@ public class RequestActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         friendRequestRef = database.getReference().child(FRIEND_REQEST_REFERENCE);
         thoughtDatabaseRef = FirebaseDatabase.getInstance().getReference().child(THOUGHTS_ON_POST);
-
 
         hasAlreadyRequested();
         NotificationStarter notification = new NotificationStarter(this);

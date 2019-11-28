@@ -1,10 +1,12 @@
 package com.example.thoughtsharingapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +15,6 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 
@@ -99,4 +100,37 @@ public class SigninActivity extends AppCompatActivity {
         super.onBackPressed();
         this.finishAffinity();
     }
+
+    public static class CheckNetwork {
+
+            private static final String TAG = CheckNetwork.class.getSimpleName();
+
+
+
+            public static boolean isInternetAvailable(Context context)
+            {
+                NetworkInfo info = (NetworkInfo) ((ConnectivityManager)
+                        context.getSystemService(CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+
+                if (info == null)
+                {
+                    Log.d(TAG,"no internet connection");
+                    return false;
+                }
+                else
+                {
+                    if(info.isConnected())
+                    {
+                        Log.d(TAG," internet connection available...");
+                        return true;
+                    }
+                    else
+                    {
+                        Log.d(TAG," internet connection");
+                        return true;
+                    }
+
+                }
+            }
+        }
 }

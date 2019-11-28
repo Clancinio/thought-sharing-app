@@ -49,12 +49,8 @@ public class MyPostActivity<StorageReference> extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_post);
 
-
+        // Database Reference
         databaseReferencePost = FirebaseDatabase.getInstance().getReference().child("Posts");
-
-        
-        //Notify user when they receive a notification
-        /**listenForRequest();**/
 
         //Recycler View
         myPosts = findViewById(R.id.my_post_list);
