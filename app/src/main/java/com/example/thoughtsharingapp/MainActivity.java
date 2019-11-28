@@ -134,7 +134,6 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
                 holder.titlePost.setText(model.getPostTitle());
                 //TODO: Lets do something on the layout with the post title value. Displaying it here maybe?
 
-                final String userID = getRef(position).getKey();
                 // Click post to request conversation
                 holder.postLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
