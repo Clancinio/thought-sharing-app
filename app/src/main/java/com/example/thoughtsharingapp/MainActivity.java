@@ -53,10 +53,11 @@ public class MainActivity<StorageReference> extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Display Toast if there is no internet connection
         if(!SigninActivity.CheckNetwork.isInternetAvailable(MainActivity.this)) //returns true if internet available
 
         {
-            Toast.makeText(MainActivity.this,"No Internet Connection",1000).show();
+            Toast.makeText(MainActivity.this,"No Internet Connection", Toast.LENGTH_LONG).show();
         }
 
         // sets up activity toolbar

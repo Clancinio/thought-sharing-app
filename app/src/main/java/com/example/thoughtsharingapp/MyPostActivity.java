@@ -49,6 +49,10 @@ public class MyPostActivity<StorageReference> extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_post);
 
+        // sets up activity toolbar
+        Toolbar myToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+
         // Database Reference
         databaseReferencePost = FirebaseDatabase.getInstance().getReference().child("Posts");
 
